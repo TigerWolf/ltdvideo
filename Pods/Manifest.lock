@@ -44,11 +44,13 @@ PODS:
   - GTMSessionFetcher/Core (1.1.9)
   - GTMSessionFetcher/Full (1.1.9):
     - GTMSessionFetcher/Core (= 1.1.9)
+  - PKHUD (3.2.1)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Storage
   - GoogleSignIn
+  - PKHUD (~> 3.0)
 
 SPEC CHECKSUMS:
   Firebase: 2b1cdfba1cda8589f32904a697cc753322bff9d8
@@ -61,7 +63,8 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
 
-PODFILE CHECKSUM: f98fa20de3a8d26b1b5f341e83270e0229f09ab5
+PODFILE CHECKSUM: f348e6a0b5f42e062b8fede420f895b667c2c540
 
 COCOAPODS: 1.2.1

@@ -8,6 +8,7 @@ target 'ltdvideo' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'GoogleSignIn'
+  pod 'PKHUD', '~> 3.0'
 
   target 'ltdvideoTests' do
     inherit! :search_paths
