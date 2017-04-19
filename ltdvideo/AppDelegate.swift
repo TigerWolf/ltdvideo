@@ -9,11 +9,14 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import Insomnia
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
+    
+    private let insomnia = Insomnia(mode: .whenCharging)
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -23,6 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+        
+//        UIDevice.current.isBatteryMonitoringEnabled = true;
+//        
+//        if (UIDevice.current.batteryState != .unplugged) {
+//            print("Device is charging.");
+//            UIApplication.shared.isIdleTimerDisabled = true
+//        }
+        
         return true
     }
 
@@ -77,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     // [START headless_google_auth]
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         // [START_EXCLUDE]
-        guard let controller = GIDSignIn.sharedInstance().uiDelegate as? LoginController else { return }
+        guard let controller = GIDSignIn.sharedInstance().uiDelegate as? LoginViewController else { return }
         // [END_EXCLUDE]
         if let error = error {
             // [START_EXCLUDE]

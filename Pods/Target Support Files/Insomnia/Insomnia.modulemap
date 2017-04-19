@@ -1,0 +1,6 @@
+framework module Insomnia {
+  umbrella header "Insomnia-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -7,8 +7,12 @@ target 'ltdvideo' do
   platform :ios, '9.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
+  pod 'Firebase/Crash'
   pod 'GoogleSignIn'
-  pod 'PKHUD', '~> 3.0'
+  pod 'KRProgressHUD'
+  pod 'Insomnia'
+  pod 'DZNEmptyDataSet'
+  pod 'GradientProgressBar', '~> 1.0'
 
   target 'ltdvideoTests' do
     inherit! :search_paths

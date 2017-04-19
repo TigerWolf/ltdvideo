@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DZNEmptyDataSet.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMOAuth2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -19,7 +24,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PKHUD.xcscheme</key>
+		<key>GradientProgressBar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Insomnia.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>KRProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -39,10 +54,15 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Protobuf.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
+		<key>2382DC9BB60E1F029CC029886432AD23</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -57,7 +77,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>6D5CEDECD3D8DC52EA507E0431BDA8A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F98C83B2911566053AA4489C30E0AD5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A9687D69AD40088EFAE55A021A882E5E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9ACEF2C498EF8F83B78A83DB2C1F172</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,12 +102,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B63156C3E70FD957805145399D7895DF</key>
+		<key>C9023116B06E0F4C5CE6308AEF660CE5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D7A75F149082140741FC1E0B5B2863C8</key>
+		<key>D386C75EFD4F03725E4EFB866B600B9A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FEBFAFCB0488B8CED6C827C51C77F7D0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
