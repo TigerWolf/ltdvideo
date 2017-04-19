@@ -1,0 +1,6 @@
+framework module Pods_ltdvideoTests {
+  umbrella header "Pods-ltdvideoTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
