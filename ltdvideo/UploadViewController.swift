@@ -4,6 +4,7 @@ import Photos // needed?
 import MobileCoreServices
 import DZNEmptyDataSet
 import AVFoundation
+import DKImagePickerController
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
@@ -78,7 +79,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         return #imageLiteral(resourceName: "uploadicon")
     }
     
-    func selectAndUpload(_ sender: UIButton) {
+    func selectAndUpload2(_ sender: UIButton) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String] //[kUTTypeMovie as String]
@@ -87,13 +88,119 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         present(imagePicker, animated: true, completion: nil)
     }
     
+    func selectAndUpload(_ sender: UIButton) {
+        let pickerController = DKImagePickerController()
+        
+//        pickerCon
+         pickerController.assetType = .allVideos
+        
+        pickerController.didSelectAssets = { (assets: [DKAsset]) in
+            print("didSelectAssets")
+            print(assets)
+            assets.forEach { asset in
+                self.uploadAsset(dk_asset: asset)
+            }
+        }
+        
+//        self.presentViewController(pickerController, animated: true) {}
+        self.present(pickerController, animated: true)
+    }
+    
+    func uploadAsset(dk_asset: DKAsset){
+
+        dk_asset.fetchAVAssetWithCompleteBlock({(asset: AVAsset?, info: [AnyHashable : Any]?) in
+            let asset = asset as? AVURLAsset
+            do {
+                let video = try NSData(contentsOf: (asset?.url)!, options: .mappedIfSafe)
+                self.uploadData(data: video)
+            } catch {
+                print(error)
+                return
+            }
+
+        })
+        
+        // OLD Method - may need to use later if we use a different image picker?
+        
+//        let phAsset = dk_asset.originalAsset
+        
+//        let manager = PHImageManager()
+//        manager.requestAVAsset(forVideo: phAsset!, options: nil, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) in
+//            DispatchQueue.main.async(execute: {
+//
+//                let asset = asset as? AVURLAsset
+//
+//                do {
+//                let video = try NSData(contentsOf: (asset?.url)!, options: .mappedIfSafe)
+//                    self.uploadData(data: video)
+//                } catch {
+//                    print(error)
+//                    return
+//                }
+//            })
+//        })
+        
+    }
+    
+    func uploadData(data: NSData){
+        let storage = FIRStorage.storage()
+        // Create a root reference
+        let storageRef = storage.reference()
+        
+        FIRAnalytics.logEvent(withName: "upload_started", parameters: nil)
+        
+
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        
+        let fileExtension = ".mp4"
+        // Create a reference to the file you want to upload
+        let filePath = FIRAuth.auth()!.currentUser!.uid +
+        "/\(year)-\(month)/\(self.formattedDate())\(fileExtension)"
+        
+        let riversRef = storageRef.child(filePath)
+        
+        // Upload the file to the path "images/rivers.jpg"
+        let uploadTask = riversRef.put(data as Data, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+            if let error = error {
+                print("Error uploading: \(error)")
+                self.urlTextView.text = "Upload Failed"
+                return
+            }
+            self.uploadSuccess(metadata, storagePath: filePath)
+            
+            // Metadata contains file metadata such as size, content-type, and download URL.
+            //            let downloadURL = metadata.downloadURL
+        }
+        
+        // Add a progress observer to an upload task
+        uploadTask.observe(.progress) { snapshot in
+            // A progress event occured
+            NSLog("\(snapshot)")
+            //            var progressFraction = snapshot.progress?.fractionCompleted ?? 0.0
+            //            progressFraction = (progressFraction * 100).rounded()
+            //
+            //            let progressString = String(describing: progressFraction)
+            //            self.progressLabel.text = "\(progressString)%"
+            self.myTableView.reloadData()
+        }
+        
+        self.files.append(uploadTask)
+        self.myTableView.reloadData()
+
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion:nil)
         
-//        NSLog("\(info)")
-
-//        userPhoto.image = image
         
         let mediaType = info[UIImagePickerControllerMediaType] as? String
         
@@ -239,9 +346,6 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         let progressString = String(describing: progressFraction)
-
-        
-        
         
         NSLog("\(snapshot.metadata?.size)")
         cell.textLabel!.text = "Uploading file: \(progressString)%"

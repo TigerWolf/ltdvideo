@@ -1,4 +1,9 @@
 PODS:
+  - DKImagePickerController (3.5.1):
+    - DKImagePickerController/Camera (= 3.5.1)
+    - DKImagePickerController/ImageManager (= 3.5.1)
+  - DKImagePickerController/Camera (3.5.1)
+  - DKImagePickerController/ImageManager (3.5.1)
   - DZNEmptyDataSet (1.8.1)
   - Firebase/Auth (3.15.0):
     - Firebase/Core
@@ -64,6 +69,7 @@ PODS:
   - Protobuf (3.2.1)
 
 DEPENDENCIES:
+  - DKImagePickerController
   - DZNEmptyDataSet
   - Firebase/Auth
   - Firebase/Crash
@@ -74,6 +80,7 @@ DEPENDENCIES:
   - KRProgressHUD
 
 SPEC CHECKSUMS:
+  DKImagePickerController: 8db7e76a88a7a66a893ba30e935cc4c9bb7ed335
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Firebase: 2b1cdfba1cda8589f32904a697cc753322bff9d8
   FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
@@ -91,6 +98,6 @@ SPEC CHECKSUMS:
   KRProgressHUD: ee25f70e274d1933b2ad0c8583a8552a349ce85d
   Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
 
-PODFILE CHECKSUM: 2e3a03ce917da37b879e65c27f44eeb75be9a4af
+PODFILE CHECKSUM: 3e356e56a9a55aa47c73cbb6f37877d2e05f8101
 
 COCOAPODS: 1.2.1

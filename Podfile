@@ -14,6 +14,7 @@ target 'ltdvideo' do
   pod 'DZNEmptyDataSet'
 #  pod 'GradientProgressBar', '~> 1.0'
   pod "HockeySDK"
+  pod 'DKImagePickerController'
 
   target 'ltdvideoTests' do
     inherit! :search_paths
