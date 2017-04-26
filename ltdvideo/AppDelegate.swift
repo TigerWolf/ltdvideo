@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import Insomnia
+import HockeySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -27,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
+        BITHockeyManager.shared().configure(withIdentifier: "130c2b1eeb2c4b7ca5d1797aab82deb3")
+        BITHockeyManager.shared().start()
+        BITHockeyManager.shared().authenticator.authenticateInstallation() // This line is obsolete in the crash only builds
 //        UIDevice.current.isBatteryMonitoringEnabled = true;
 //        
 //        if (UIDevice.current.batteryState != .unplugged) {
@@ -105,6 +109,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // [START_EXCLUDE]
         controller.firebaseLogin(credential)
         // [END_EXCLUDE]
+    }
+    
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+    
+    func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.portrait.rawValue)
     }
 
 }

@@ -10,10 +10,10 @@
 		15B8E4C25FAA2CF9FD58B22F /* Pods_ltdvideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B1047D5F7378BB8DC6587F /* Pods_ltdvideo.framework */; };
 		B097F758FED0A8D659693BDC /* Pods_ltdvideoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D2C69596F7C4D0EAF7CC7F /* Pods_ltdvideoTests.framework */; };
 		B59AAA99B33AAD0E43BDF012 /* Pods_ltdvideoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC512806D22BC45D5A902366 /* Pods_ltdvideoUITests.framework */; };
+		BA9CCB771EA8F266003B9899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA9CCB761EA8F266003B9899 /* Assets.xcassets */; };
 		BAC0AF2C1EA70BB700554747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0AF2B1EA70BB700554747 /* AppDelegate.swift */; };
 		BAC0AF2E1EA70BB700554747 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0AF2D1EA70BB700554747 /* ViewController.swift */; };
 		BAC0AF311EA70BB700554747 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAC0AF2F1EA70BB700554747 /* Main.storyboard */; };
-		BAC0AF331EA70BB700554747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC0AF321EA70BB700554747 /* Assets.xcassets */; };
 		BAC0AF361EA70BB700554747 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAC0AF341EA70BB700554747 /* LaunchScreen.storyboard */; };
 		BAC0AF411EA70BB700554747 /* ltdvideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0AF401EA70BB700554747 /* ltdvideoTests.swift */; };
 		BAC0AF4C1EA70BB700554747 /* ltdvideoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0AF4B1EA70BB700554747 /* ltdvideoUITests.swift */; };
@@ -46,11 +46,11 @@
 		76D2C69596F7C4D0EAF7CC7F /* Pods_ltdvideoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ltdvideoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DCFDB3D29153AF6529C7483 /* Pods-ltdvideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ltdvideo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ltdvideo/Pods-ltdvideo.release.xcconfig"; sourceTree = "<group>"; };
 		AC512806D22BC45D5A902366 /* Pods_ltdvideoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ltdvideoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA9CCB761EA8F266003B9899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BAC0AF281EA70BB700554747 /* ltdvideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ltdvideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC0AF2B1EA70BB700554747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BAC0AF2D1EA70BB700554747 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BAC0AF301EA70BB700554747 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BAC0AF321EA70BB700554747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BAC0AF351EA70BB700554747 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BAC0AF371EA70BB700554747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAC0AF3C1EA70BB700554747 /* ltdvideoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ltdvideoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,13 +137,13 @@
 				BAC0AF2B1EA70BB700554747 /* AppDelegate.swift */,
 				BAC0AF2D1EA70BB700554747 /* ViewController.swift */,
 				BAC0AF2F1EA70BB700554747 /* Main.storyboard */,
-				BAC0AF321EA70BB700554747 /* Assets.xcassets */,
 				BAC0AF341EA70BB700554747 /* LaunchScreen.storyboard */,
 				BAC0AF5B1EA710A300554747 /* GoogleService-Info.plist */,
 				BAC0AF371EA70BB700554747 /* Info.plist */,
 				BAC0AF591EA70CCD00554747 /* LoginViewController.swift */,
 				BAC0AF5D1EA7153F00554747 /* UploadViewController.swift */,
 				BAC0AF601EA7509A00554747 /* ltdvideo-Bridging-Header.h */,
+				BA9CCB761EA8F266003B9899 /* Assets.xcassets */,
 			);
 			path = ltdvideo;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 			files = (
 				BAC0AF361EA70BB700554747 /* LaunchScreen.storyboard in Resources */,
 				BAC0AF5C1EA710A300554747 /* GoogleService-Info.plist in Resources */,
-				BAC0AF331EA70BB700554747 /* Assets.xcassets in Resources */,
+				BA9CCB771EA8F266003B9899 /* Assets.xcassets in Resources */,
 				BAC0AF311EA70BB700554747 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -621,7 +621,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

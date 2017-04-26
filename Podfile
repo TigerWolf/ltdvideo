@@ -12,7 +12,8 @@ target 'ltdvideo' do
   pod 'KRProgressHUD'
   pod 'Insomnia'
   pod 'DZNEmptyDataSet'
-  pod 'GradientProgressBar', '~> 1.0'
+#  pod 'GradientProgressBar', '~> 1.0'
+  pod "HockeySDK"
 
   target 'ltdvideoTests' do
     inherit! :search_paths

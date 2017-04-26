@@ -49,7 +49,6 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GradientProgressBar (1.0.0)
   - GTMOAuth2 (1.1.4):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.9):
@@ -57,6 +56,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.9)
   - GTMSessionFetcher/Full (1.1.9):
     - GTMSessionFetcher/Core (= 1.1.9)
+  - HockeySDK (4.1.4):
+    - HockeySDK/DefaultLib (= 4.1.4)
+  - HockeySDK/DefaultLib (4.1.4)
   - Insomnia (0.9.5)
   - KRProgressHUD (2.2.2)
   - Protobuf (3.2.1)
@@ -67,7 +69,7 @@ DEPENDENCIES:
   - Firebase/Crash
   - Firebase/Storage
   - GoogleSignIn
-  - GradientProgressBar (~> 1.0)
+  - HockeySDK
   - Insomnia
   - KRProgressHUD
 
@@ -82,13 +84,13 @@ SPEC CHECKSUMS:
   FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
   GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GradientProgressBar: 891fbb898c84c57db4925f9a853507ef97fd662b
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  HockeySDK: 78a3f8bb9100277b531defc56c970369a3ca267a
   Insomnia: c449157bf5131ce2f7244efe17dae7feaaaf14a3
   KRProgressHUD: ee25f70e274d1933b2ad0c8583a8552a349ce85d
   Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
 
-PODFILE CHECKSUM: 1acb4771074ae5501e5f3a380be8037a64a544d8
+PODFILE CHECKSUM: 2e3a03ce917da37b879e65c27f44eeb75be9a4af
 
 COCOAPODS: 1.2.1

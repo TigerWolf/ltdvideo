@@ -16,19 +16,34 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        restorationIdentifier = "LoginViewController"
+        restorationClass = LoginViewController.self
     }
     
     override func viewDidAppear(_ animated: Bool) {
     
         let label = UILabel(frame: CGRect(x:20, y:100, width:300, height:40))
-        label.text = "Loading..."
+//        label.text = "Loading..."
         self.view.addSubview(label)
         
+        let gSignin = GIDSignInButton(frame: CGRect(x:20, y:100, width:self.view.frame.width-40, height:40))
+        self.view.addSubview(gSignin)
+        
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+            if let user = user {
+                print("User is signed in.")
+                self.openUpload()
+            } else {
+                print("User is signed out.")
+                GIDSignIn.sharedInstance().uiDelegate = self
+//                GIDSignIn.sharedInstance().signIn() // This is handled by button
+            }
+        }
+        
         if FIRAuth.auth()?.currentUser != nil {
-            self.openUpload()
+            
         }else{
-            GIDSignIn.sharedInstance().uiDelegate = self
-            GIDSignIn.sharedInstance().signIn()
+
         }
         
 
@@ -69,6 +84,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
                         
                         return
                     }
+                    self.openUpload()
 //                    self.tableView.reloadData()
                 
                 // [END_EXCLUDE]
@@ -87,6 +103,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
                         // [END_EXCLUDE]
                         return
                     }
+                    self.openUpload()
                     // [END signin_credential]
                     // Merge prevUser and currentUser accounts and data
                     // ...
@@ -102,4 +119,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
 
     
     
+}
+
+extension LoginViewController: UIViewControllerRestoration {
+    
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        let vc = LoginViewController()
+        return vc
+    }
 }

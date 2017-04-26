@@ -24,7 +24,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>GradientProgressBar.xcscheme</key>
+		<key>HockeySDK-HockeySDKResources.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -62,7 +62,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2382DC9BB60E1F029CC029886432AD23</key>
+		<key>0EDA27CD6715E75F9A8700B847E9EB53</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>399644D8CDE2E6EB82A05BB259C7DD8A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,11 +87,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8F98C83B2911566053AA4489C30E0AD5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>A9687D69AD40088EFAE55A021A882E5E</key>
 		<dict>
 			<key>primary</key>
@@ -102,12 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C9023116B06E0F4C5CE6308AEF660CE5</key>
+		<key>D386C75EFD4F03725E4EFB866B600B9A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D386C75EFD4F03725E4EFB866B600B9A</key>
+		<key>EB9AD825427F216B54E693242E671FA1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

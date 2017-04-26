@@ -3,7 +3,7 @@ import UIKit
 import Photos // needed?
 import MobileCoreServices
 import DZNEmptyDataSet
-import GradientProgressBar
+import AVFoundation
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
@@ -16,6 +16,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        restorationIdentifier = "UploadViewController"
+        restorationClass = UploadViewController.self
         
         self.view.backgroundColor = UIColor.white
         
@@ -30,9 +32,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         
 //        self.navigationController?.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(selectAndUpload))]
         self.navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(selectAndUpload))
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(selectAndUpload))
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(signout))
 
-        
 //        view.addSubview(uploadButton)
         let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
         let displayWidth: CGFloat = self.view.frame.width
@@ -51,12 +52,30 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.myTableView.tableFooterView = UIView()
     }
     
+    func signout() {
+        
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+//        try! FIRAuth.auth()!.signOut()
+//        self.removeFromParentViewController()
+        dismiss(animated: true, completion: nil)
+    }
+    
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: "Upload a file. ")
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: "Click the + to start.")
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return #imageLiteral(resourceName: "uploadicon")
     }
     
     func selectAndUpload(_ sender: UIButton) {
@@ -71,6 +90,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion:nil)
+        
+//        NSLog("\(info)")
 
 //        userPhoto.image = image
         
@@ -91,6 +112,20 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
             fileExtension = ".jpg"
         }
          if "public.movie" == mediaType {
+//            let asset = AVAsset(url: info[UIImagePickerControllerReferenceURL] as! URL)
+//            let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+//            
+//            var time = asset.duration
+//            time.value = min(time.value, 2)
+//            
+//            do {
+//                let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+//                let image = UIImage(cgImage: imageRef)
+//            } catch {
+//                print("error")
+////                return nil
+//            }
+            
             let videoPath = info[UIImagePickerControllerMediaURL] as! URL
             if let videoData = NSData(contentsOf: videoPath) as Data? {
                 data = videoData
@@ -98,9 +133,18 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
             fileExtension = ".mp4"
         }
         
+        FIRAnalytics.logEvent(withName: "upload_started", parameters: nil)
+        
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        
         // Create a reference to the file you want to upload
         let filePath = FIRAuth.auth()!.currentUser!.uid +
-        "/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(self.formattedDate())\(fileExtension)"
+        "/\(year)-\(month)/\(self.formattedDate())\(fileExtension)"
 
         let riversRef = storageRef.child(filePath)
         
@@ -151,6 +195,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func uploadSuccess(_ metadata: FIRStorageMetadata, storagePath: String) {
         print("Upload Succeeded!")
+        FIRAnalytics.logEvent(withName: "upload_complete", parameters: nil)
         self.progressLabel.text = "Upload done!"
     }
     
@@ -175,7 +220,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         progressFraction = (progressFraction * 100).rounded()
 
 
-        
+//        snapshot.reference.storage.
+        NSLog("uploaded date: \(snapshot.metadata?.timeCreated)")
         
         
 //        let progressBar = GradientProgressBar(progressViewStyle: UIProgressViewStyle)
@@ -183,23 +229,57 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
 //        progressBar.setProgress(progressFloat, animated: true)
         let progressBar = UIProgressView(frame: cell.frame)
         progressBar.progress = progressFloat
-        progressBar.frame.origin.y = 20
-        progressBar.frame.origin.x = 10
-        progressBar.frame.size.width = progressBar.frame.width - 20
+        progressBar.frame.origin.y = 0
+        progressBar.frame.origin.x = 0
+//        progressBar.frame.size.width = progressBar.frame.width - 20
 
 //        progressBar = GradientProgressBar
         cell.contentView.addSubview(progressBar)
+        cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "uploadicon"))
+        
         
         let progressString = String(describing: progressFraction)
+
+        
+        
+        
+        NSLog("\(snapshot.metadata?.size)")
+        cell.textLabel!.text = "Uploading file: \(progressString)%"
+        
         if snapshot.status == .success {
-            progressBar.isHidden = true
+            //            progressBar.isHidden = true
+            progressBar.removeFromSuperview()
             cell.textLabel!.text = "Upload successful."
-            
+            cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "tick"))
             
         }
         
+        // TODO: Works on all phone sizes
+        cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         
-//        cell.textLabel!.text = "Uploading file: \(progressString)%"
+        
         return cell
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        coder.encode(files, forKey: "files")
+        NSLog("restore")
+        super.encodeRestorableState(with: coder)
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        if let filesData = coder.decodeObject(forKey: "files") as? [FIRStorageUploadTask] {
+            files = filesData
+        }
+        NSLog("destore")
+        super.decodeRestorableState(with: coder)
+    }
+}
+
+extension UploadViewController: UIViewControllerRestoration {
+    
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        let vc = UploadViewController()
+        return vc
     }
 }
