@@ -8,6 +8,7 @@ target 'ltdvideo' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Crash'
+  pod 'Firebase/Database'
   pod 'GoogleSignIn'
   pod 'KRProgressHUD'
   pod 'Insomnia'

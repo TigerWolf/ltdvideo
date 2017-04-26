@@ -5,6 +5,7 @@ import MobileCoreServices
 import DZNEmptyDataSet
 import AVFoundation
 import DKImagePickerController
+import FirebaseDatabase
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
@@ -106,6 +107,44 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.present(pickerController, animated: true)
     }
     
+    func storeFilenameInDB(metadata: FIRStorageMetadata) {
+        
+        let downloadURL = metadata.downloadURL()
+        
+        let ref = FIRDatabase.database().reference()
+        let key = ref.child("users").childByAutoId().key
+        
+        var dictionaryUser: [String: String] = ["":""]
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        let result = formatter.string(from: date)
+
+        let user = FIRAuth.auth()?.currentUser
+        if let user = user {
+            // The user's ID, unique to the Firebase project.
+            // Do NOT use this value to authenticate with your backend server,
+            // if you have one. Use getTokenWithCompletion:completion: instead.
+            let uid = user.uid
+            let email = user.email
+            
+            dictionaryUser = [
+                "uid": uid,
+                "userName": email!,
+                "imageUrl": downloadURL?.absoluteString ?? "",
+                "path": metadata.path!,
+                "created": result
+            ]
+        }
+        
+        let childUpdates = ["/users/\(key)": dictionaryUser]
+        ref.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) -> Void in
+            //save
+        })
+        
+    }
+    
     func uploadAsset(dk_asset: DKAsset){
 
         dk_asset.fetchAVAssetWithCompleteBlock({(asset: AVAsset?, info: [AnyHashable : Any]?) in
@@ -171,7 +210,9 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
             if let error = error {
                 print("Error uploading: \(error)")
-                self.urlTextView.text = "Upload Failed"
+                DispatchQueue.main.async {
+                    self.urlTextView.text = "Upload Failed"
+                }
                 return
             }
             self.uploadSuccess(metadata, storagePath: filePath)
@@ -302,6 +343,12 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func uploadSuccess(_ metadata: FIRStorageMetadata, storagePath: String) {
         print("Upload Succeeded!")
+        
+        
+        // store downloadURL in db
+        
+        self.storeFilenameInDB(metadata: metadata)
+
         FIRAnalytics.logEvent(withName: "upload_complete", parameters: nil)
         self.progressLabel.text = "Upload done!"
     }
