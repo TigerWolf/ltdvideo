@@ -18,8 +18,11 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         restorationIdentifier = "UploadViewController"
         restorationClass = UploadViewController.self
+        
+//        self.retreiveFromFile()
         
         self.view.backgroundColor = UIColor.white
         
@@ -37,7 +40,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(signout))
 
 //        view.addSubview(uploadButton)
-        let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
+        let barHeight: CGFloat = 65; // UIApplication.shared.statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
         
@@ -45,6 +48,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         myTableView.dataSource = self
         myTableView.delegate = self
+        myTableView.restorationIdentifier = "UploadTableViewController"
+
         self.view.addSubview(myTableView)
         
         self.myTableView.emptyDataSetSource = self
@@ -93,7 +98,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         let pickerController = DKImagePickerController()
         
 //        pickerCon
-         pickerController.assetType = .allVideos
+         pickerController.assetType = .allAssets // .allVideos
         
         pickerController.didSelectAssets = { (assets: [DKAsset]) in
             print("didSelectAssets")
@@ -112,83 +117,81 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         let downloadURL = metadata.downloadURL()
         
         let ref = FIRDatabase.database().reference()
-        let key = ref.child("users").childByAutoId().key
-        
-        var dictionaryUser: [String: String] = ["":""]
+        let key = ref.child("uploads").childByAutoId().key
         
         let date = Date()
         let formatter = DateFormatter()
-        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy MMM EEEE HH:mm"
         let result = formatter.string(from: date)
 
         let user = FIRAuth.auth()?.currentUser
         if let user = user {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
             let uid = user.uid
             let email = user.email
             
-            dictionaryUser = [
+            let dictionaryUser = [
                 "uid": uid,
                 "userName": email!,
                 "imageUrl": downloadURL?.absoluteString ?? "",
                 "path": metadata.path!,
                 "created": result
             ]
+            
+            let childUpdates = ["/uploads/\(key)": dictionaryUser]
+            ref.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) -> Void in
+                //save
+            })
         }
-        
-        let childUpdates = ["/users/\(key)": dictionaryUser]
-        ref.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) -> Void in
-            //save
-        })
         
     }
     
     func uploadAsset(dk_asset: DKAsset){
 
-        dk_asset.fetchAVAssetWithCompleteBlock({(asset: AVAsset?, info: [AnyHashable : Any]?) in
-            let asset = asset as? AVURLAsset
-            do {
-                let video = try NSData(contentsOf: (asset?.url)!, options: .mappedIfSafe)
-                self.uploadData(data: video)
-            } catch {
-                print(error)
-                return
-            }
+        let videoUpload = VideoUpload()
+        // TODO: check if this is safe
+        let filename = dk_asset.originalAsset?.value(forKey: "filename")
+        videoUpload.originalFilename = filename as! String
+        
+        if (dk_asset.isVideo) {
+            dk_asset.fetchAVAssetWithCompleteBlock({(asset: AVAsset?, avinfo: [AnyHashable : Any]?) in
+                NSLog("fetching AV - uploading")
+                dk_asset.fetchImageWithSize(CGSize(width: 200, height: 200), completeBlock: { (thumbnailImage: UIImage?,  tninfo: [AnyHashable: Any]?) in
+                    NSLog("fetching TN - uploading")
+                    videoUpload.thumbnail = thumbnailImage ?? UIImage()
+                })
+                
+                // TODO: Save thumbnail image to object
+                let asset = asset as? AVURLAsset
+                do {
+                    let video = try NSData(contentsOf: (asset?.url)!, options: .mappedIfSafe)
+                    self.uploadData(data: video, videoUpload: videoUpload)
+                } catch {
+                    print(error)
+                    return
+                }
 
-        })
-        
-        // OLD Method - may need to use later if we use a different image picker?
-        
-//        let phAsset = dk_asset.originalAsset
-        
-//        let manager = PHImageManager()
-//        manager.requestAVAsset(forVideo: phAsset!, options: nil, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) in
-//            DispatchQueue.main.async(execute: {
-//
-//                let asset = asset as? AVURLAsset
-//
-//                do {
-//                let video = try NSData(contentsOf: (asset?.url)!, options: .mappedIfSafe)
-//                    self.uploadData(data: video)
-//                } catch {
-//                    print(error)
-//                    return
-//                }
-//            })
-//        })
+
+            })
+        } else {
+//            dk_asset.fetchOriginalImage(<#T##sync: Bool##Bool#>, completeBlock: <#T##(UIImage?, [AnyHashable : Any]?) -> Void#>)
+            dk_asset.fetchOriginalImageWithCompleteBlock({(asset: UIImage?, info: [AnyHashable : Any]?) in
+              let image = UIImageJPEGRepresentation(asset!, 1.0)!
+            videoUpload.thumbnail = asset!
+              self.uploadData(data: image as NSData, videoUpload: videoUpload)
+            })
+        }
         
     }
     
-    func uploadData(data: NSData){
+    func uploadData(data: NSData, videoUpload: VideoUpload){
+        
+        NSLog("data uploading")
         let storage = FIRStorage.storage()
         // Create a root reference
         let storageRef = storage.reference()
         
         FIRAnalytics.logEvent(withName: "upload_started", parameters: nil)
         
-
         let date = Date()
         let calendar = Calendar.current
         
@@ -200,10 +203,9 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         let filePath = FIRAuth.auth()!.currentUser!.uid +
         "/\(year)-\(month)/\(self.formattedDate())\(fileExtension)"
         
-        let riversRef = storageRef.child(filePath)
+        let fileRef = storageRef.child(filePath)
         
-        // Upload the file to the path "images/rivers.jpg"
-        let uploadTask = riversRef.put(data as Data, metadata: nil) { (metadata, error) in
+        let uploadTask = fileRef.put(data as Data, metadata: nil) { (metadata, error) in
             guard let metadata = metadata else {
                 // Uh-oh, an error occurred!
                 return
@@ -215,121 +217,20 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
                 }
                 return
             }
-            self.uploadSuccess(metadata, storagePath: filePath)
-            
-            // Metadata contains file metadata such as size, content-type, and download URL.
-            //            let downloadURL = metadata.downloadURL
+            self.uploadSuccess(metadata, storagePath: filePath, videoUpload: videoUpload)
         }
         
         // Add a progress observer to an upload task
         uploadTask.observe(.progress) { snapshot in
-            // A progress event occured
-            NSLog("\(snapshot)")
-            //            var progressFraction = snapshot.progress?.fractionCompleted ?? 0.0
-            //            progressFraction = (progressFraction * 100).rounded()
-            //
-            //            let progressString = String(describing: progressFraction)
-            //            self.progressLabel.text = "\(progressString)%"
             self.myTableView.reloadData()
         }
         
-        self.files.append(uploadTask)
+        
+        videoUpload.firebaseUploadRef = uploadTask
+        self.files.append(videoUpload)
+        self.saveToFile()
         self.myTableView.reloadData()
 
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion:nil)
-        
-        
-        let mediaType = info[UIImagePickerControllerMediaType] as? String
-        
-        let storage = FIRStorage.storage()
-        
-        // Create a root reference
-        let storageRef = storage.reference()
-        
-        // Data in memory
-        var data = Data()
-        var fileExtension = ""
-        
-        if "public.image" == mediaType {
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            data = UIImageJPEGRepresentation(image, 0.8)!
-            fileExtension = ".jpg"
-        }
-         if "public.movie" == mediaType {
-//            let asset = AVAsset(url: info[UIImagePickerControllerReferenceURL] as! URL)
-//            let assetImageGenerator = AVAssetImageGenerator(asset: asset)
-//            
-//            var time = asset.duration
-//            time.value = min(time.value, 2)
-//            
-//            do {
-//                let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
-//                let image = UIImage(cgImage: imageRef)
-//            } catch {
-//                print("error")
-////                return nil
-//            }
-            
-            let videoPath = info[UIImagePickerControllerMediaURL] as! URL
-            if let videoData = NSData(contentsOf: videoPath) as Data? {
-                data = videoData
-            }
-            fileExtension = ".mp4"
-        }
-        
-        FIRAnalytics.logEvent(withName: "upload_started", parameters: nil)
-        
-        
-        let date = Date()
-        let calendar = Calendar.current
-        
-        let year = calendar.component(.year, from: date)
-        let month = calendar.component(.month, from: date)
-        
-        // Create a reference to the file you want to upload
-        let filePath = FIRAuth.auth()!.currentUser!.uid +
-        "/\(year)-\(month)/\(self.formattedDate())\(fileExtension)"
-
-        let riversRef = storageRef.child(filePath)
-        
-        // Upload the file to the path "images/rivers.jpg"
-        let uploadTask = riversRef.put(data, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
-                // Uh-oh, an error occurred!
-                return
-            }
-            if let error = error {
-                print("Error uploading: \(error)")
-                self.urlTextView.text = "Upload Failed"
-                return
-            }
-            self.uploadSuccess(metadata, storagePath: filePath)
-
-            // Metadata contains file metadata such as size, content-type, and download URL.
-//            let downloadURL = metadata.downloadURL
-        }
-        
-        // Add a progress observer to an upload task
-        let progressItem = uploadTask.observe(.progress) { snapshot in
-            // A progress event occured
-            NSLog("\(snapshot)")
-//            var progressFraction = snapshot.progress?.fractionCompleted ?? 0.0
-//            progressFraction = (progressFraction * 100).rounded()
-//            
-//            let progressString = String(describing: progressFraction)
-//            self.progressLabel.text = "\(progressString)%"
-            self.myTableView.reloadData()
-        }
-        
-//        uploadTask.snapshot.progress
-        
-        self.files.append(uploadTask)
-        self.myTableView.reloadData()
-        
     }
     
     func formattedDate() -> String {
@@ -341,22 +242,21 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         return formatter.string(from: date)
     }
     
-    func uploadSuccess(_ metadata: FIRStorageMetadata, storagePath: String) {
+    func uploadSuccess(_ metadata: FIRStorageMetadata, storagePath: String, videoUpload: VideoUpload) {
         print("Upload Succeeded!")
-        
-        
-        // store downloadURL in db
-        
+        videoUpload.completed = true
         self.storeFilenameInDB(metadata: metadata)
 
         FIRAnalytics.logEvent(withName: "upload_complete", parameters: nil)
         self.progressLabel.text = "Upload done!"
+        self.myTableView.reloadData()
     }
     
-    private var files = [FIRStorageUploadTask]() //["First","Second","Third"]
+    public var files: [VideoUpload] = []
     private var myTableView: UITableView!
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: Retry
 //        print("Num: \(indexPath.row)")
 //        print("Value: \(files[indexPath.row])")
     }
@@ -365,65 +265,128 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         return files.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90.0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
-//        cell.textLabel!.text = "\(files[indexPath.row])"
-        let snapshot = files[indexPath.row].snapshot
-        var progressFraction = snapshot.progress?.fractionCompleted ?? 0.0
+
+        // TODO: maybe improve how this optional works - reduce bugs
+        let videoUpload = files[indexPath.row]
+        var progressFraction = 0.0
+        if let firebaseUploadRef = videoUpload.firebaseUploadRef {
+           progressFraction = firebaseUploadRef.snapshot.progress?.fractionCompleted ?? 0.0
+        }
+        
         let progressFloat = Float(progressFraction)
         progressFraction = (progressFraction * 100).rounded()
-
-
-//        snapshot.reference.storage.
-        NSLog("uploaded date: \(snapshot.metadata?.timeCreated)")
         
-        
-//        let progressBar = GradientProgressBar(progressViewStyle: UIProgressViewStyle)
-//        progressBar.frame = cell.frame
-//        progressBar.setProgress(progressFloat, animated: true)
+        // TODO: we are probably creating a whole bunch of progress bars and we only need one
         let progressBar = UIProgressView(frame: cell.frame)
         progressBar.progress = progressFloat
         progressBar.frame.origin.y = 0
         progressBar.frame.origin.x = 0
-//        progressBar.frame.size.width = progressBar.frame.width - 20
-
-//        progressBar = GradientProgressBar
+        
         cell.contentView.addSubview(progressBar)
         cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "uploadicon"))
         
+        cell.imageView?.image = videoUpload.thumbnail
+
+        let itemSize = CGSize(width: 55, height: 55)
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.main.scale);
+        let imageRect = CGRect(x: 0.0, y: 0.0, width: itemSize.width, height: itemSize.height);
+        cell.imageView?.image!.draw(in: imageRect)
+        cell.imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+
+        cell.setNeedsLayout()
         
         let progressString = String(describing: progressFraction)
         
-        NSLog("\(snapshot.metadata?.size)")
-        cell.textLabel!.text = "Uploading file: \(progressString)%"
+//        NSLog("\(String(describing: snapshot.metadata?.size))")
+        cell.textLabel!.text = "\(videoUpload.originalFilename) uploading: \(progressString)%"
         
-        if snapshot.status == .success {
+        // TODO: Move this somewhere else
+//        if snapshot.status == .success {
+//            videoUpload.completed = true
+            //This is done in callback
+//        }
+        
+        if videoUpload.completed == true {
             //            progressBar.isHidden = true
             progressBar.removeFromSuperview()
-            cell.textLabel!.text = "Upload successful."
-            cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "tick"))
-            
+//            VideoUpload.
+            cell.textLabel!.text = "Upload of \(videoUpload.originalFilename) successful."
+            cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "greenTick"))
+        }
+        
+        if videoUpload.failed == true {
+            progressBar.removeFromSuperview()
+            cell.textLabel!.text = "Upload of \(videoUpload.originalFilename) failed."
+            cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "failed"))
         }
         
         // TODO: Works on all phone sizes
         cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         
-        
         return cell
     }
     
-    override func encodeRestorableState(with coder: NSCoder) {
-        coder.encode(files, forKey: "files")
-        NSLog("restore")
-        super.encodeRestorableState(with: coder)
+    var filePath: String {
+        //1 - manager lets you examine contents of a files and folders in your app; creates a directory to where we are saving it
+        let manager = FileManager.default
+        //2 - this returns an array of urls from our documentDirectory and we take the first path
+        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
+        print("this is the url path in the documentDirectory \(url)")
+        //3 - creates a new path component and creates a new file called "Data" which is where we will store our Data array.
+        return (url!.appendingPathComponent("Data").path)
     }
     
-    override func decodeRestorableState(with coder: NSCoder) {
-        if let filesData = coder.decodeObject(forKey: "files") as? [FIRStorageUploadTask] {
-            files = filesData
+    func saveToFile(){
+        let result = NSKeyedArchiver.archiveRootObject(self.files, toFile: filePath)
+        if (result == false) {
+            NSLog("error saving file")
         }
-        NSLog("destore")
+    }
+    
+    func retreiveFromFile(){
+        NSLog("retreiving file")
+        
+        if let decodedFiles = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [VideoUpload] {
+            self.files = decodedFiles
+        }
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        self.saveToFile()
+
+        /* 
+         Cannot save FIRStorageUploadTask as it doest not implement encodeWithCoder. 
+         Instead we need to make all the files as failed and maybe add a retry button
+         for each item. 
+         We may need to store different items to keep the table view state.
+        */
+
+        super.encodeRestorableState(with: coder)
+    }
+
+    override func decodeRestorableState(with coder: NSCoder) {
+        self.retreiveFromFile()
+        for file in files {
+            // Set in progress files to failed.
+            if (file.completed == false){
+                file.failed = true
+                // TODO: We might need to also set the completed ones to true too.
+            }
+        }
+
+        self.saveToFile()
         super.decodeRestorableState(with: coder)
+    }
+
+    override func applicationFinishedRestoringState() {
+        NSLog("\(self)")
     }
 }
 
@@ -431,6 +394,19 @@ extension UploadViewController: UIViewControllerRestoration {
     
     static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
         let vc = UploadViewController()
+//        vc.files = self.files
+        if let filesData = coder.decodeObject(forKey: "files") as? [VideoUpload] {
+            for file in filesData {
+                // Set in progress files to failed.
+                if (file.completed == false){
+                    file.failed = true
+                    // TODO: We might need to also set the completed ones to true too.
+                }
+            }
+            vc.files = filesData
+        }
+
+        NSLog("\(vc)")
         return vc
     }
 }

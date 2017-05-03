@@ -54,15 +54,24 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    var navController = UINavigationController()
+    var uploadController = UploadViewController()
+    
     func openUpload(){
 
-
-        let uploadController =  UploadViewController()
-        let nav1 = UINavigationController()
-        nav1.viewControllers = [uploadController]
+        NSLog("opening upload controller")
+        
+        
+        navController.restorationIdentifier = "UploadNavigationController"
+//        nav1.restorationClass = UINavigationController as! UIViewControllerRestoration.Type.self
+        navController.viewControllers = [uploadController]
+        
+        NSLog("\(uploadController)")
 //        self.navigationController?.pushViewController(uploadController, animated: true)
 //        self.present(uploadController, animated: true)
-        self.present(nav1, animated: true, completion: nil)
+        if (presentedViewController == nil) {
+            self.present(navController, animated: true, completion: nil)
+        }
     }
     
     func showMessagePrompt(_ message: String) {
@@ -73,6 +82,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     }
     
     func firebaseLogin(_ credential: FIRAuthCredential) {
+        NSLog("login is happening - upload view controller will try opening")
         showSpinner()
         if let user = FIRAuth.auth()?.currentUser {
             // [START link_credential]
@@ -118,13 +128,48 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     }
 
     
+    override func encodeRestorableState(with coder: NSCoder) {
+        
+        // TODO: maybe encode the child view controller or tokens here
+        NSLog("encoding loginview")
+        coder.encode(navController, forKey: "navController")
+        coder.encode(uploadController, forKey: "uploadController")
+        
+        super.encodeRestorableState(with: coder)
+
+    }
     
+    override func decodeRestorableState(with coder: NSCoder) {
+        
+        NSLog("decoding loginview:")
+        
+        if let navControllerCoded = coder.decodeObject(forKey: "navController") as? UINavigationController {
+            self.navController = navControllerCoded
+        }
+        if let uploadControllerCoded = coder.decodeObject(forKey: "uploadController") as? UploadViewController {
+            self.uploadController = uploadControllerCoded
+        }
+        super.decodeRestorableState(with: coder)
+    }
+    
+    override func applicationFinishedRestoringState() {
+        NSLog("\(self)")
+    }
+
 }
 
 extension LoginViewController: UIViewControllerRestoration {
     
     static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        
         let vc = LoginViewController()
+//        if let navControllerCoded = coder.decodeObject(forKey: "navController") as? UINavigationController {
+//            vc.navController = navControllerCoded
+//        }
+//        if let uploadControllerCoded = coder.decodeObject(forKey: "uploadController") as? UploadViewController {
+//            vc.uploadController = uploadControllerCoded
+//        }
+        NSLog("inside login vc \(vc.uploadController)")
         return vc
     }
 }
