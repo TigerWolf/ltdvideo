@@ -13,65 +13,30 @@ import UIKit
 import KRProgressHUD
 
 class LoginViewController: UIViewController, GIDSignInUIDelegate {
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        restorationIdentifier = "LoginViewController"
-        restorationClass = LoginViewController.self
+		let label = UILabel(frame: CGRect(x:20, y:100, width:300, height:40))
+		//        label.text = "Loading..."
+		self.view.addSubview(label)
+		
+		let gSignin = GIDSignInButton(frame: CGRect(x:20, y:100, width:self.view.frame.width-40, height:40))
+		self.view.addSubview(gSignin)
+		GIDSignIn.sharedInstance().uiDelegate = self
     }
-    
+	
     override func viewDidAppear(_ animated: Bool) {
-    
-        let label = UILabel(frame: CGRect(x:20, y:100, width:300, height:40))
-//        label.text = "Loading..."
-        self.view.addSubview(label)
-        
-        let gSignin = GIDSignInButton(frame: CGRect(x:20, y:100, width:self.view.frame.width-40, height:40))
-        self.view.addSubview(gSignin)
-        
-        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
-            if let user = user {
-                print("User is signed in.")
-                self.openUpload()
-            } else {
-                print("User is signed out.")
-                GIDSignIn.sharedInstance().uiDelegate = self
-//                GIDSignIn.sharedInstance().signIn() // This is handled by button
-            }
-        }
-        
+		super.viewDidAppear(animated)
         if FIRAuth.auth()?.currentUser != nil {
             
-        }else{
+        } else {
 
         }
-        
-
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    var navController = UINavigationController()
-    var uploadController = UploadViewController()
-    
-    func openUpload(){
-
-        NSLog("opening upload controller")
-        
-        
-        navController.restorationIdentifier = "UploadNavigationController"
-//        nav1.restorationClass = UINavigationController as! UIViewControllerRestoration.Type.self
-        navController.viewControllers = [uploadController]
-        
-        NSLog("\(uploadController)")
-//        self.navigationController?.pushViewController(uploadController, animated: true)
-//        self.present(uploadController, animated: true)
-        if (presentedViewController == nil) {
-            self.present(navController, animated: true, completion: nil)
-        }
     }
     
     func showMessagePrompt(_ message: String) {
@@ -89,14 +54,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
             user.link(with: credential) { (user, error) in
                 // [START_EXCLUDE]
                 KRProgressHUD.dismiss()
-                    if let error = error {
-                        self.showMessagePrompt(error.localizedDescription)
-                        
-                        return
-                    }
-                    self.openUpload()
-//                    self.tableView.reloadData()
-                
+				if let error = error {
+					self.showMessagePrompt(error.localizedDescription)
+					return
+				}
+				// Dismiss to show upload view
+				self.dismiss(animated:true, completion:nil)
                 // [END_EXCLUDE]
             }
             // [END link_credential]
@@ -113,11 +76,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
                         // [END_EXCLUDE]
                         return
                     }
-                    self.openUpload()
-                    // [END signin_credential]
-                    // Merge prevUser and currentUser accounts and data
-                    // ...
-                
+				// Dismiss to show upload view
+				self.dismiss(animated:true, completion:nil)
+				// [END signin_credential]
+				// Merge prevUser and currentUser accounts and data
+				// ...
             }
         }
         
@@ -132,9 +95,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         
         // TODO: maybe encode the child view controller or tokens here
         NSLog("encoding loginview")
-        coder.encode(navController, forKey: "navController")
-        coder.encode(uploadController, forKey: "uploadController")
-        
+//        coder.encode(navController, forKey: "navController")
+//        coder.encode(uploadController, forKey: "uploadController")
+		
         super.encodeRestorableState(with: coder)
 
     }
@@ -142,34 +105,17 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     override func decodeRestorableState(with coder: NSCoder) {
         
         NSLog("decoding loginview:")
-        
-        if let navControllerCoded = coder.decodeObject(forKey: "navController") as? UINavigationController {
-            self.navController = navControllerCoded
-        }
-        if let uploadControllerCoded = coder.decodeObject(forKey: "uploadController") as? UploadViewController {
-            self.uploadController = uploadControllerCoded
-        }
+//        if let navControllerCoded = coder.decodeObject(forKey: "navController") as? UINavigationController {
+//            self.navController = navControllerCoded
+//        }
+//        if let uploadControllerCoded = coder.decodeObject(forKey: "uploadController") as? UploadViewController {
+//            self.uploadController = uploadControllerCoded
+//        }
         super.decodeRestorableState(with: coder)
     }
     
     override func applicationFinishedRestoringState() {
-        NSLog("\(self)")
+        NSLog("Finished restoring state for LoginViewController")
     }
 
-}
-
-extension LoginViewController: UIViewControllerRestoration {
-    
-    static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-        
-        let vc = LoginViewController()
-//        if let navControllerCoded = coder.decodeObject(forKey: "navController") as? UINavigationController {
-//            vc.navController = navControllerCoded
-//        }
-//        if let uploadControllerCoded = coder.decodeObject(forKey: "uploadController") as? UploadViewController {
-//            vc.uploadController = uploadControllerCoded
-//        }
-        NSLog("inside login vc \(vc.uploadController)")
-        return vc
-    }
 }

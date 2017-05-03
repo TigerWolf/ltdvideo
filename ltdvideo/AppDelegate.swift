@@ -64,13 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        guard let appWindow = window else {
-            fatalError("failed to create window")
-        }
-        appWindow.rootViewController = LoginViewController()
-        appWindow.makeKeyAndVisible()
         return true
     }
     

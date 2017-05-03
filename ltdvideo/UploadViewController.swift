@@ -9,8 +9,9 @@ import FirebaseDatabase
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
-    var progressLabel: UILabel!
-    
+    @IBOutlet private weak var progressLabel:UILabel!
+	@IBOutlet private weak var table:UITableView!
+	
     let imagePicker = UIImagePickerController()
     
     var urlTextView: UITextField!
@@ -19,16 +20,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        restorationIdentifier = "UploadViewController"
-        restorationClass = UploadViewController.self
-        
 //        self.retreiveFromFile()
-        
-        self.view.backgroundColor = UIColor.white
-        
-        self.progressLabel = UILabel(frame: CGRect(x:20, y:100, width:300, height:40))
-        self.progressLabel.text = "Ready."
-        view.addSubview(self.progressLabel)
         
         let uploadButton = UIButton(frame: CGRect(x:20, y:150, width:300, height:40))
         uploadButton.setTitle("Upload file", for: .normal)
@@ -40,25 +32,27 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(signout))
 
 //        view.addSubview(uploadButton)
-        let barHeight: CGFloat = 65; // UIApplication.shared.statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
-        let displayWidth: CGFloat = self.view.frame.width
-        let displayHeight: CGFloat = self.view.frame.height
-        
-        myTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
-        myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-        myTableView.dataSource = self
-        myTableView.delegate = self
-        myTableView.restorationIdentifier = "UploadTableViewController"
 
-        self.view.addSubview(myTableView)
-        
-        self.myTableView.emptyDataSetSource = self
-        self.myTableView.emptyDataSetDelegate = self
-        
         // A little trick for removing the cell separators
-        self.myTableView.tableFooterView = UIView()
+        table.tableFooterView = UIView()
     }
-    
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		FIRAuth.auth()?.addStateDidChangeListener {auth, user in
+			if let user = user {
+				NSLog("User is signed in.")
+				// Nothing to do, proceed
+			} else {
+				NSLog("User is signed out. Show login view.")
+				// Show login view
+				if let lvc = self.storyboard?.instantiateViewController(withIdentifier:"LoginViewController") {
+					self.present(lvc, animated:true, completion:nil)
+				}
+			}
+		}
+	}
+	
     func signout() {
         
         let firebaseAuth = FIRAuth.auth()
@@ -222,14 +216,14 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         // Add a progress observer to an upload task
         uploadTask.observe(.progress) { snapshot in
-            self.myTableView.reloadData()
+			self.table.reloadData()
         }
         
         
         videoUpload.firebaseUploadRef = uploadTask
         self.files.append(videoUpload)
         self.saveToFile()
-        self.myTableView.reloadData()
+        self.table.reloadData()
 
     }
     
@@ -249,12 +243,11 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
 
         FIRAnalytics.logEvent(withName: "upload_complete", parameters: nil)
         self.progressLabel.text = "Upload done!"
-        self.myTableView.reloadData()
+        table.reloadData()
     }
     
     public var files: [VideoUpload] = []
-    private var myTableView: UITableView!
-    
+	
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: Retry
 //        print("Num: \(indexPath.row)")
@@ -381,12 +374,12 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
         }
 
-        self.saveToFile()
+//        self.saveToFile()
         super.decodeRestorableState(with: coder)
     }
 
     override func applicationFinishedRestoringState() {
-        NSLog("\(self)")
+        NSLog("Finished restoring state for UploadViewController")
     }
 }
 
