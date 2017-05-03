@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "448"
-            endingLineNumber = "448"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515467010.965084"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "openUpload()"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "showMessagePrompt(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515469660.081755"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "openUpload()"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "firebaseLogin(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515467013.269084"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "openUpload()"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "showMessagePrompt(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,13 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/AppDelegate.swift"
-            timestampString = "515473011.842427"
+            timestampString = "515505849.042408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "application(_:viewControllerWithRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
+            startingLineNumber = "143"
+            endingLineNumber = "143">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,13 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515479478.779597"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
+            startingLineNumber = "269"
+            endingLineNumber = "269">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,43 +118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484911.199102"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "631"
-            endingLineNumber = "631"
-            landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515470558.750601"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "decodeRestorableState(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515479478.779597"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,13 +134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515479478.779597"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
+            startingLineNumber = "253"
+            endingLineNumber = "253">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -186,13 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515479478.779597"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
+            startingLineNumber = "267"
+            endingLineNumber = "267">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -202,29 +162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515479478.779597"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
-            landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515470558.750601"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "encodeRestorableState(with:)"
-            landmarkType = "7">
+            startingLineNumber = "268"
+            endingLineNumber = "268">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -234,13 +176,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515470362.03519"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "encodeRestorableState(with:)"
-            landmarkType = "7">
+            startingLineNumber = "273"
+            endingLineNumber = "273">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -250,13 +190,55 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515470362.961544"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "encodeRestorableState(with:)"
-            landmarkType = "7">
+            startingLineNumber = "270"
+            endingLineNumber = "270">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ltdvideo/LoginViewController.swift"
+            timestampString = "515508817.343277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "240"
+            endingLineNumber = "240">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ltdvideo/LoginViewController.swift"
+            timestampString = "515508817.343277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ltdvideo/LoginViewController.swift"
+            timestampString = "515508817.343277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "LoginViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -266,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484911.199102"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "viewController(withRestorationIdentifierPath:coder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515472638.909992"
+            timestampString = "515505983.027889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -326,15 +308,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/LoginViewController.swift"
-            timestampString = "515475907.257032"
+            timestampString = "515508817.343277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "firebaseLogin(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "514"
-            endingLineNumber = "514"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "saveToFile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "retreiveFromFile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "retreiveFromFile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "521"
-            endingLineNumber = "521"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "retreiveFromFile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515484745.029448"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "saveToFile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -422,15 +404,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515485040.147488"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "588"
-            endingLineNumber = "588"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "decodeRestorableState(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -438,15 +420,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515485041.925061"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "decodeRestorableState(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -454,16 +436,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ltdvideo/UploadViewController.swift"
-            timestampString = "515485044.152007"
+            timestampString = "515488111.888993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "576"
-            endingLineNumber = "576"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "encodeRestorableState(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ltdvideo/LoginViewController.swift"
+            timestampString = "515508817.343277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "loginDidTouch(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ltdvideo/LoginViewController.swift"
+            timestampString = "515508817.343277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "signUpDidTouch(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

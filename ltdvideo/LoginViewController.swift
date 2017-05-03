@@ -21,8 +21,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
 		//        label.text = "Loading..."
 		self.view.addSubview(label)
 		
-		let gSignin = GIDSignInButton(frame: CGRect(x:20, y:100, width:self.view.frame.width-40, height:40))
-		self.view.addSubview(gSignin)
+//		let gSignin = GIDSignInButton(frame: CGRect(x:20, y:100, width:self.view.frame.width-40, height:40))
+//		self.view.addSubview(gSignin)
     }
 	
     override func viewDidAppear(_ animated: Bool) {
@@ -30,6 +30,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 print("User is signed in.")
+                NSLog("\(!self.wasRestored)")
 				if !self.wasRestored {
 					self.openUpload()
 				}
@@ -41,13 +42,75 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         }
         
         if FIRAuth.auth()?.currentUser != nil {
-            
+            print("User is logged in.")
+//            self.openUpload()
         }else{
 
         }
-        
 
     }
+    
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBAction func loginDidTouch(_ sender: Any) {
+        self.showSpinner()
+        FIRAuth.auth()!.signIn(withEmail: emailField.text!,
+                               password: passwordField.text!){ (user, error) in
+                                // ...
+                                if error == nil {
+                                    self.hideSpinner()
+                                }
+        }
+
+    }
+    
+    
+    @IBAction func signUpDidTouch(_ sender: Any) {
+        let alert = UIAlertController(title: "Register",
+                                      message: "Register",
+                                      preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save",
+                                       style: .default) { action in
+                                        let emailTextField = alert.textFields![0]
+                                        let passwordTextField = alert.textFields![1]
+             self.showSpinner()
+            FIRAuth.auth()!.createUser(withEmail: emailTextField.text!,
+                                       password: passwordTextField.text!) { user, error in
+                                        NSLog("creating user")
+                if error == nil {
+                    FIRAuth.auth()!.signIn(withEmail: self.emailField.text!,
+                                           password: self.passwordField.text!)
+                    self.hideSpinner()
+                }else {
+                    let errorAlert = UIAlertController(title: "Error",
+                                                  message: "There was an error with your details. Please try again.",
+                                                  preferredStyle: .alert)
+//                    UIAlertAction(title: <#T##String?#>, style: <#T##UIAlertActionStyle#>, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
+                    
+                    self.present(errorAlert, animated: true, completion: nil)
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        alert.addTextField { textEmail in
+            textEmail.placeholder = "Enter your email"
+        }
+        
+        alert.addTextField { textPassword in
+            textPassword.isSecureTextEntry = true
+            textPassword.placeholder = "Enter your password"
+        }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -111,6 +174,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     func showSpinner(){
         KRProgressHUD.show()
     }
+    
+    func hideSpinner(){
+        KRProgressHUD.dismiss()
+    }
+
 
     
     override func encodeRestorableState(with coder: NSCoder) {

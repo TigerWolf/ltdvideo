@@ -248,7 +248,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.storeFilenameInDB(metadata: metadata)
 
         FIRAnalytics.logEvent(withName: "upload_complete", parameters: nil)
-        self.progressLabel.text = "Upload done!"
+        self.progressLabel.text = "Upload \(videoUpload.originalFilename) done!"
         self.myTableView.reloadData()
     }
     
